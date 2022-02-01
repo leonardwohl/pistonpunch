@@ -34,8 +34,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Mod("pistonpunch")
-public class PistonPunch
-{
+public class PistonPunch {
+
     private static final Logger log = LogManager.getLogger();
 
     private DamageSource lastDamageSource;
@@ -43,7 +43,6 @@ public class PistonPunch
     public PistonPunch() {
         MinecraftForge.EVENT_BUS.register(this);
     }
-
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
@@ -60,19 +59,17 @@ public class PistonPunch
             if(face == null || pos == null || world == null)
                 return;
             moveBlocks(world, pos, face.getOpposite());
-            log.info("piston punched at block {} {}", pos, face);
+            log.debug("piston punched at block {} {}", pos, face);
         }
     }
 
     @SubscribeEvent
     public void bufferLivingAttackEvent(LivingAttackEvent event) {
-        log.info("attack event: {} on {}", event.getSource(), event.getEntity().getDisplayName());
         lastDamageSource = event.getSource();
     }
 
     @SubscribeEvent
     public void onKnockbackEvent(LivingKnockBackEvent event) {
-        log.info("{} knockback : {}", event.getEntity().getDisplayName(), event.getStrength());
         if (lastDamageSource == null)
             return;
         Entity entity = lastDamageSource.getDirectEntity();
@@ -158,6 +155,5 @@ public class PistonPunch
         world.playSound(null, pos, SoundEvents.PISTON_EXTEND, SoundSource.BLOCKS, 0.5F, world.random.nextFloat() * 0.15F + 0.6F);
         world.gameEvent(GameEvent.PISTON_EXTEND, pos);
         return true;
-
     }
 }
